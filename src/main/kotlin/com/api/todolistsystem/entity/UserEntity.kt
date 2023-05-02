@@ -1,5 +1,6 @@
 package com.api.todolistsystem.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
@@ -10,6 +11,6 @@ data class UserEntity(
     @Column(nullable = false, length = 12) val name: String = "",
     @Column(nullable = false, length = 16) val password: String = "",
     @Column(nullable = false, unique = true, length = 30) val email: String = "",
-    @OneToMany(mappedBy = "userEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JsonIgnore @OneToMany(mappedBy = "userEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
     val todolist: MutableList<ToDoListEntity> = mutableListOf()
 )

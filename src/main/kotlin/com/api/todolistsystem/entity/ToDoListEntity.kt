@@ -1,14 +1,15 @@
 package com.api.todolistsystem.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
-@Table(name = "toDolist")
+@Table(name = "todolist")
 data class ToDoListEntity(
     @Id
     @GeneratedValue
-    val id: Long,
+    val id: Long? = null,
     @Column(nullable = false, length = 20) val name: String,
     @Column(nullable = false, length = 50) val description: String,
     @Column(nullable = false) val registrationDate: LocalDate = LocalDate.now(),
