@@ -16,10 +16,11 @@ class UserService: IUserService {
     }
 
     override fun findById(id: Long): UserEntity {
-        TODO("Not yet implemented")
+        return this.userRepository.findById(id).orElseThrow { IllegalArgumentException("User not found") }
     }
 
     override fun delete(id: Long) {
-        TODO("Not yet implemented")
+        val userEntity: UserEntity = this.findById(id)
+        this.userRepository.delete(userEntity)
     }
 }
