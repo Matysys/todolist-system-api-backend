@@ -7,7 +7,8 @@ import jakarta.persistence.*
 @Table(name = "user")
 data class UserEntity(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) val id: Long? = null,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true) val id: Long? = null,
     @Column(nullable = false, length = 12) val name: String = "",
     @Column(nullable = false, length = 16) val password: String = "",
     @Column(nullable = false, unique = true, length = 30) val email: String = "",

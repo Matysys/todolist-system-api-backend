@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-//@CrossOrigin(origins = ["*"], maxAge = 3600)
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RequestMapping("/api/user")
 class UserController(private val userService: UserService) {
 
     @PostMapping
-    fun saveUser(@RequestBody @Valid userDto: UserDto): ResponseEntity<UserEntity>{
-        var userEntity: UserEntity = this.userService.save(userDto.toEntity())
-        return ResponseEntity.status(HttpStatus.CREATED).body(userEntity)
+    fun saveUser(@RequestBody @Valid userDto: UserDto): ResponseEntity<String>{
+        this.userService.save(userDto.toEntity())
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário salvo com sucesso!")
     }
 
     @GetMapping("/{id}")

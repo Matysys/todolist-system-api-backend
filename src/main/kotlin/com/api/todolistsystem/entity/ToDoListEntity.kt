@@ -8,7 +8,7 @@ import java.time.LocalDate
 @Table(name = "todolist")
 data class ToDoListEntity(
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @Column(nullable = false, length = 20) val name: String,
     @Column(nullable = false, length = 50) val description: String,
