@@ -4,8 +4,8 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
-@Table(name = "todolist")
-data class ToDo(
+@Table(name = "toDolist")
+data class ToDoListEntity(
     @Id
     @GeneratedValue
     val id: Long,
@@ -14,6 +14,6 @@ data class ToDo(
     @Column(nullable = false) val registrationDate: LocalDate = LocalDate.now(),
     @Column(nullable = false) val finalDate: LocalDate,
     @Column(nullable = false) val priority: String,
-    @ManyToOne @JoinColumn(name = "user_id")val user: User
+    @ManyToOne @JoinColumn(name = "user_id")val userEntity: UserEntity
 )
 

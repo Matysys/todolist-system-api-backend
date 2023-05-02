@@ -1,0 +1,15 @@
+package com.api.todolistsystem.entity
+
+import jakarta.persistence.*
+
+@Entity
+@Table(name = "user")
+data class UserEntity(
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO) val id: Long? = null,
+    @Column(nullable = false, length = 12) val name: String = "",
+    @Column(nullable = false, length = 16) val password: String = "",
+    @Column(nullable = false, unique = true, length = 30) val email: String = "",
+    @OneToMany(mappedBy = "userEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val todolist: MutableList<ToDoListEntity> = mutableListOf()
+)
