@@ -1,6 +1,7 @@
 package com.api.todolistsystem.controller
 
 import com.api.todolistsystem.dto.UserDto
+import com.api.todolistsystem.dto.UserLoginDto
 import com.api.todolistsystem.entity.UserEntity
 import com.api.todolistsystem.service.impl.UserService
 import jakarta.validation.Valid
@@ -29,6 +30,12 @@ class UserController(private val userService: UserService) {
     fun getUserById(@PathVariable id: Long): ResponseEntity<UserEntity>{
         val userEntity: UserEntity = this.userService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(userEntity)
+    }
+
+    @PostMapping("/checkUser")
+    fun checkUserLogin(@RequestBody @Valid userLoginDto: UserLoginDto): ResponseEntity<String>{
+        this.userService.checkUserLogin(userLoginDto.email, userLoginDto.password)
+        return ResponseEntity.status(HttpStatus.OK).body("Usuário encontrado!")
     }
 
 }

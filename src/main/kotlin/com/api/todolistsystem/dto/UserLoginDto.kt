@@ -5,12 +5,9 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-data class UserDto(
+data class UserLoginDto(
     @NotBlank
-    @Size(max = 12)
-    val name: String = "",
-    @NotBlank
-    @Size(max = 16)
+    @Size(max = 10)
     val password: String = "",
     @NotBlank
     @Size(max = 30)
@@ -18,8 +15,7 @@ data class UserDto(
     val email: String = ""
 ){
     fun toEntity(): UserEntity = UserEntity(
-        name = this.name,
-        plainPassword = this.password,
+        password = this.password,
         email = this.email
     )
 }
