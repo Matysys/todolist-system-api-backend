@@ -1,5 +1,6 @@
 package com.api.todolistsystem.repository
 
+import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
 import org.apache.catalina.User
 import org.springframework.data.jpa.repository.JpaRepository

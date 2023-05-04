@@ -1,5 +1,6 @@
 package com.api.todolistsystem.service
 
+import com.api.todolistsystem.dto.UserLoginResponseDto
 import com.api.todolistsystem.entity.UserEntity
 
 interface IUserService {
@@ -10,6 +11,6 @@ interface IUserService {
 
     fun delete(id: Long)
 
-    fun checkUserLogin(email: String, password: String): UserEntity?
+    fun checkUserLogin(email: String, password: String): UserEntity
 
 }

@@ -1,5 +1,7 @@
 package com.api.todolistsystem.service.impl
 
+import com.api.todolistsystem.dto.UserLoginResponseDto
+import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
 import com.api.todolistsystem.repository.UserRepository
 import com.api.todolistsystem.service.IUserService
@@ -26,9 +28,8 @@ class UserService: IUserService {
         this.userRepository.delete(userEntity)
     }
 
-    override fun checkUserLogin(email: String, password: String): UserEntity? {
+    override fun checkUserLogin(email: String, password: String): UserEntity {
         val user = this.userRepository.findByEmail(email) ?: throw IllegalArgumentException("Email ou senha inválidos!")
-
         if (BCrypt.checkpw(password, user.password)) {
             return user
         } else {

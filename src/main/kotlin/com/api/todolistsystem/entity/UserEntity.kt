@@ -18,7 +18,7 @@ data class UserEntity(
 
     @Column(nullable = false, unique = true, length = 30) val email: String = "",
     @JsonIgnore @OneToMany(mappedBy = "userEntity", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val todolist: MutableList<ToDoListEntity> = mutableListOf()
+    var todolist: MutableList<ToDoListEntity>? = mutableListOf()
 ){
     //Método para criptografar a senha
     fun encryptPassword() {

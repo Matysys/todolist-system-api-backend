@@ -11,7 +11,7 @@ data class ToDoListEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @Column(nullable = false, length = 20) val name: String,
-    @Column(nullable = false, length = 50) val description: String,
+    @Column(nullable = false, length = 100) val description: String,
     @Column(nullable = false) val registrationDate: LocalDate = LocalDate.now(),
     @Column(nullable = false) val finalDate: LocalDate,
     @Column(nullable = false) val priority: String,

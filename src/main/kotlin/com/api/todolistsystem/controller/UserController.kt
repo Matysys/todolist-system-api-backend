@@ -2,8 +2,12 @@ package com.api.todolistsystem.controller
 
 import com.api.todolistsystem.dto.UserDto
 import com.api.todolistsystem.dto.UserLoginDto
+import com.api.todolistsystem.dto.UserLoginResponseDto
 import com.api.todolistsystem.entity.UserEntity
 import com.api.todolistsystem.service.impl.UserService
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,10 +36,25 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.status(HttpStatus.OK).body(userEntity)
     }
 
-    @PostMapping("/checkUser")
-    fun checkUserLogin(@RequestBody @Valid userLoginDto: UserLoginDto): ResponseEntity<String>{
-        this.userService.checkUserLogin(userLoginDto.email, userLoginDto.password)
-        return ResponseEntity.status(HttpStatus.OK).body("Usuário encontrado!")
+    @PostMapping("/login")
+    fun login(@RequestBody @Valid userLoginDto: UserLoginDto): ResponseEntity<*>{
+        val userEntity: UserEntity = this.userService.checkUserLogin(userLoginDto.email, userLoginDto.password)
+            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha inválidos!")
+
+        val algorithm = Algorithm.HMAC256("secretpassword") // chave secreta para assinatura do token
+        val token = JWT.create()
+            .withIssuer("auth0") // emissor do token
+            .withSubject(userLoginDto.email) // assunto do token
+            .withClaim("name", userEntity.name)
+            .withClaim("userId", userEntity.id)
+            .sign(algorithm)
+
+        val responseDto = LoginResponseDto(token)
+        val responseJson = ObjectMapper().writeValueAsString(responseDto)
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseJson)
     }
+
+    data class LoginResponseDto(val token: String)
 
 }
