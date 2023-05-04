@@ -1,6 +1,7 @@
 package com.api.todolistsystem.controller
 
 import com.api.todolistsystem.dto.ToDoDto
+import com.api.todolistsystem.dto.ToDoListDetailsDto
 import com.api.todolistsystem.dto.UserDto
 import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
@@ -38,6 +39,20 @@ class ToDoListController {
         val toDoListEntity: List<ToDoListEntity> = this.toDoListService.findAllByUser(userId)
         return ResponseEntity.status(HttpStatus.OK).body(toDoListEntity)
     }
+
+    @GetMapping("/details/{userId}")
+        fun getAllToDoListDetailsByUserId(@PathVariable(value = "userId") @Valid userId: Long)
+        :ResponseEntity<ToDoListDetailsDto>{
+        val toDoListDetails: ToDoListDetailsDto = toDoListService.findDetailsByUser(userId)
+        val dto = ToDoListDetailsDto(
+            toDoListDetails.totalTasks,
+            toDoListDetails.totalBaixa,
+            toDoListDetails.totalMedia,
+            toDoListDetails.totalAlta,
+            toDoListDetails.totalOutOfLimit
+        )
+        return ResponseEntity.status(HttpStatus.OK).body(dto)
+        }
 
 
 

@@ -1,5 +1,6 @@
 package com.api.todolistsystem.service.impl
 
+import com.api.todolistsystem.dto.ToDoListDetailsDto
 import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
 import com.api.todolistsystem.repository.ToDoListRepository
@@ -24,6 +25,20 @@ class ToDoListService: IToDoListService {
 
     override fun findAllByUser(id: Long): List<ToDoListEntity> {
         return this.toDoListRepository.findAllByUserId(id)
+    }
+
+    override fun findDetailsByUser(id: Long): ToDoListDetailsDto {
+        val result = toDoListRepository.findDetailsByUser(id)
+
+        val dto = ToDoListDetailsDto(
+            result["totaltasks"]!!,
+            result["totalbaixa"]!!,
+            result["totalmedia"]!!,
+            result["totalalta"]!!,
+            result["totaloutoflimit"]!!
+        )
+
+        return dto
     }
 
     override fun delete(id: Long) {
