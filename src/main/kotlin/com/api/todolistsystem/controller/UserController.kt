@@ -4,6 +4,7 @@ import com.api.todolistsystem.dto.UserDto
 import com.api.todolistsystem.dto.UserLoginDto
 import com.api.todolistsystem.dto.UserLoginResponseDto
 import com.api.todolistsystem.entity.UserEntity
+import com.api.todolistsystem.jwt.Jwt
 import com.api.todolistsystem.service.impl.UserService
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.security.SecureRandom
+import java.util.*
 
 @RestController
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -41,18 +44,21 @@ class UserController(private val userService: UserService) {
         val userEntity: UserEntity = this.userService.checkUserLogin(userLoginDto.email, userLoginDto.password)
             ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha inválidos!")
 
-        val algorithm = Algorithm.HMAC256("secretpassword") // chave secreta para assinatura do token
-        val token = JWT.create()
-            .withIssuer("auth0") // emissor do token
-            .withSubject(userLoginDto.email) // assunto do token
-            .withClaim("name", userEntity.name)
-            .withClaim("userId", userEntity.id)
-            .sign(algorithm)
+        val random = SecureRandom()
+        val key = ByteArray(256)
+        random.nextBytes(key)
+        val secret = Base64.getEncoder().encodeToString(key)
+
+        val token = Jwt.criarToken(userLoginDto.email, userEntity.id!!, userEntity.name)
 
         val responseDto = LoginResponseDto(token)
-        val responseJson = ObjectMapper().writeValueAsString(responseDto)
+        val responseJson: String = ObjectMapper().writeValueAsString(responseDto)
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseJson)
+        println("TOKEN É $token")
+        println("ResponseDTO É $responseDto")
+        println("responseJson é $responseJson")
+
+        return ResponseEntity.status(HttpStatus.OK).body(token)
     }
 
     data class LoginResponseDto(val token: String)

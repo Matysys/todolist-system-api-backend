@@ -2,22 +2,24 @@ package com.api.todolistsystem.controller
 
 import com.api.todolistsystem.dto.ToDoDto
 import com.api.todolistsystem.dto.ToDoListDetailsDto
-import com.api.todolistsystem.dto.UserDto
+import com.api.todolistsystem.dto.ToDoUpdateDto
 import com.api.todolistsystem.entity.ToDoListEntity
-import com.api.todolistsystem.entity.UserEntity
+import com.api.todolistsystem.jwt.Jwt
 import com.api.todolistsystem.service.impl.ToDoListService
-import com.api.todolistsystem.service.impl.UserService
+import com.auth0.jwt.interfaces.DecodedJWT
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -53,6 +55,26 @@ class ToDoListController {
         )
         return ResponseEntity.status(HttpStatus.OK).body(dto)
         }
+
+    @DeleteMapping("/delete/{userId}")
+    fun deleteToDoListById(@PathVariable(value = "taskId") @Valid taskId: Long, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
+        val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
+        if (checkToken != null) {
+            this.toDoListService.delete(taskId)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Tarefa deletada com sucesso!")
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
+    }
+
+    @PatchMapping("/update")
+    fun updateToDoListById(@RequestBody @Valid toDoUpdateDto: ToDoUpdateDto, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
+        val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
+        if (checkToken != null) {
+            this.toDoListService.save(toDoUpdateDto)
+            return ResponseEntity.status(HttpStatus.OK).body("Tarefa alterada com sucesso!")
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
+    }
 
 
 

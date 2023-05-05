@@ -1,6 +1,8 @@
 package com.api.todolistsystem.service.impl
 
+import com.api.todolistsystem.dto.ToDoDto
 import com.api.todolistsystem.dto.ToDoListDetailsDto
+import com.api.todolistsystem.dto.ToDoUpdateDto
 import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
 import com.api.todolistsystem.repository.ToDoListRepository
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 class ToDoListService: IToDoListService {
 
-    //Anotação para injetar as dependências quando necessário aqui no ToDoListService
+    //Anotação para injetar as dependências quando necessário aqui
     @Autowired lateinit var toDoListRepository: ToDoListRepository
 
     override fun save(toDoListEntity: ToDoListEntity): ToDoListEntity {
@@ -42,7 +44,7 @@ class ToDoListService: IToDoListService {
     }
 
     override fun delete(id: Long) {
-        val toDoListEntity: ToDoListEntity = this.findById(id)
-        this.toDoListRepository.delete(toDoListEntity)
+        this.toDoListRepository.deleteById(id)
     }
+
 }

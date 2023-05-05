@@ -1,5 +1,6 @@
 package com.api.todolistsystem.repository
 
+import com.api.todolistsystem.dto.ToDoDto
 import com.api.todolistsystem.dto.ToDoListDetailsDto
 import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity

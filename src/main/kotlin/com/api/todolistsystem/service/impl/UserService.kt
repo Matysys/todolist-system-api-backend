@@ -16,7 +16,7 @@ class UserService: IUserService {
 
     override fun save(userEntity: UserEntity): UserEntity {
         userEntity.encryptPassword()
-        return userRepository.save(userEntity)
+        return this.userRepository.save(userEntity)
     }
 
     override fun findById(id: Long): UserEntity {
