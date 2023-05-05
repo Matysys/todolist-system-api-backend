@@ -37,7 +37,8 @@ class ToDoListService: IToDoListService {
             result["totalbaixa"]!!,
             result["totalmedia"]!!,
             result["totalalta"]!!,
-            result["totaloutoflimit"]!!
+            result["totaloutoflimit"]!!,
+            result["totalfinished"]!!
         )
 
         return dto
@@ -51,5 +52,10 @@ class ToDoListService: IToDoListService {
     override fun update(toDoUpdateDto: ToDoUpdateDto): Int {
         return this.toDoListRepository.update(toDoUpdateDto.id, toDoUpdateDto.name, toDoUpdateDto.description,
             toDoUpdateDto.finalDate, toDoUpdateDto.priority, toDoUpdateDto.userId)
+    }
+
+    @Transactional
+    override fun finish(id: Long): Int {
+        return this.toDoListRepository.finish(id);
     }
 }

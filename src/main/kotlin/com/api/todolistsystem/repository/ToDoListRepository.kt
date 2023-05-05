@@ -16,24 +16,23 @@ import java.util.Date
 @Repository
 interface ToDoListRepository : JpaRepository<ToDoListEntity, Long> {
 
-    @Query(value = "SELECT * FROM todolist WHERE user_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM todolist t WHERE t.user_id = :id", nativeQuery = true)
     fun findAllByUserId(@Param("id") userId: Long): List<ToDoListEntity>
 
-    @Query(value = "SELECT " +
+    @Query("SELECT " +
             "COUNT(*) as totaltasks," +
             "SUM(priority = 'BAIXA') as totalbaixa, " +
             "SUM(priority = 'MÉDIA') as totalmedia, " +
-            "SUM(priority = 'ALTA') as totalalta, " +
+            "SUM(priority = 'ALTA') as totalalta," +
+            "SUM(finished = 'SIM') as totalfinished, " +
             "SUM(registration_date > final_date) as totaloutoflimit " +
-            "FROM todolist WHERE user_id = :id", nativeQuery = true)
-    fun findDetailsByUser(@Param("id") userId: Long): Map<String, Long>
+            "FROM todolist t WHERE t.user_id = :userId", nativeQuery = true)
+    fun findDetailsByUser(@Param("userId") userId: Long): Map<String, Long>
 
     @Modifying
-    @Query(value = "UPDATE todolist SET name = :name, " +
-            "description = :description, " +
-            "final_date = :finalDate, " +
-            "priority = :priority " +
-            "WHERE user_id = :userId AND id = :taskId", nativeQuery = true)
+    @Query("UPDATE todolist t SET t.name = :name, t.description = :description, " +
+            "t.final_date = :finalDate, t.priority = :priority " +
+            "WHERE t.user_id = :userId AND t.id = :taskId", nativeQuery = true)
     fun update(@Param("taskId") id: Long,
                @Param("name") name: String,
                @Param("description") description: String,
@@ -41,4 +40,9 @@ interface ToDoListRepository : JpaRepository<ToDoListEntity, Long> {
                @Param("priority") priority: String,
                @Param("userId") userId: Long): Int
 
+
+
+    @Modifying
+    @Query("UPDATE todolist SET finished = 'SIM' WHERE id = :taskId", nativeQuery = true)
+    fun finish(@Param("taskId") id: Long): Int
 }

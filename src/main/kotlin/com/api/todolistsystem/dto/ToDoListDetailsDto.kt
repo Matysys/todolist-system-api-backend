@@ -5,5 +5,6 @@ data class ToDoListDetailsDto(
     val totalBaixa: Long,
     val totalMedia: Long,
     val totalAlta: Long,
-    val totalOutOfLimit: Long
+    val totalOutOfLimit: Long,
+    val totalfinished: Long,
 )

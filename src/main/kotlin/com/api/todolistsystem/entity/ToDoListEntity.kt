@@ -15,6 +15,7 @@ data class ToDoListEntity(
     @Column(nullable = false) val registrationDate: LocalDate = LocalDate.now(),
     @Column(nullable = false) val finalDate: LocalDate,
     @Column(nullable = false) val priority: String,
+    @Column(nullable = false) val finished: String = "NÃO",
     @ManyToOne @JoinColumn(name = "user_id")val userEntity: UserEntity
 )
 

@@ -18,4 +18,6 @@ interface IToDoListService {
     fun delete(id: Long)
 
     fun update(toDoUpdateDto: ToDoUpdateDto): Int
+
+    fun finish(id: Long): Int
 }

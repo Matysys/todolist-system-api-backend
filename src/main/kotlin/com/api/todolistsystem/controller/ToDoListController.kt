@@ -55,7 +55,8 @@ class ToDoListController {
             toDoListDetails.totalBaixa,
             toDoListDetails.totalMedia,
             toDoListDetails.totalAlta,
-            toDoListDetails.totalOutOfLimit
+            toDoListDetails.totalOutOfLimit,
+            toDoListDetails.totalfinished
         )
         return ResponseEntity.status(HttpStatus.OK).body(dto)
         }
@@ -76,6 +77,16 @@ class ToDoListController {
         if (checkToken != null) {
             this.toDoListService.update(toDoUpdateDto)
             return ResponseEntity.status(HttpStatus.OK).body("Tarefa alterada com sucesso!")
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
+    }
+
+    @PatchMapping("/finish/{taskId}")
+    fun finishToDoListById(@PathVariable @Valid taskId: Long, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
+        val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
+        if (checkToken != null) {
+            this.toDoListService.finish(taskId)
+            return ResponseEntity.status(HttpStatus.OK).body("Tarefa concluída com sucesso!")
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
     }
