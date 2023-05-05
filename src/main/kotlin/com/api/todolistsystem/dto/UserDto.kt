@@ -14,7 +14,7 @@ data class UserDto(
     val password: String = "",
     @NotBlank
     @Size(max = 30)
-    @Email
+    @field:Email(message = "E-mail inválido!")
     val email: String = ""
 ){
     fun toEntity(): UserEntity = UserEntity(

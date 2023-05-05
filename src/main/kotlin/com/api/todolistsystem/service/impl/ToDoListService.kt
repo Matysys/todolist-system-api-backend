@@ -47,4 +47,9 @@ class ToDoListService: IToDoListService {
         this.toDoListRepository.deleteById(id)
     }
 
+    @Transactional
+    override fun update(toDoUpdateDto: ToDoUpdateDto): Int {
+        return this.toDoListRepository.update(toDoUpdateDto.id, toDoUpdateDto.name, toDoUpdateDto.description,
+            toDoUpdateDto.finalDate, toDoUpdateDto.priority, toDoUpdateDto.userId)
+    }
 }

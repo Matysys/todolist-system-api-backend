@@ -10,7 +10,7 @@ data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true) val id: Long? = null,
-    @Column(nullable = false, length = 12) val name: String = "",
+    @Column(nullable = false, length = 20) val name: String = "",
     @Column(nullable = false, length = 60) var password: String = "",
 
     @Transient

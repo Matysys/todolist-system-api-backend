@@ -31,9 +31,13 @@ class ToDoListController {
     @Autowired lateinit var toDoListService: ToDoListService
 
     @PostMapping
-    fun saveToDoList(@RequestBody @Valid todoListDto: ToDoDto): ResponseEntity<ToDoListEntity>{
-        var toDoListDto: ToDoListEntity = this.toDoListService.save(todoListDto.toEntity())
-        return ResponseEntity.status(HttpStatus.CREATED).body(toDoListDto)
+    fun saveToDoList(@RequestBody @Valid todoListDto: ToDoDto, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
+        val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
+        if (checkToken != null) {
+            this.toDoListService.save(todoListDto.toEntity())
+            return ResponseEntity.status(HttpStatus.CREATED).body("Tarefa criada com sucesso!")
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
     }
 
     @GetMapping("/{userId}")
@@ -56,7 +60,7 @@ class ToDoListController {
         return ResponseEntity.status(HttpStatus.OK).body(dto)
         }
 
-    @DeleteMapping("/delete/{userId}")
+    @DeleteMapping("/delete/{taskId}")
     fun deleteToDoListById(@PathVariable(value = "taskId") @Valid taskId: Long, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
         val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
         if (checkToken != null) {
@@ -70,7 +74,7 @@ class ToDoListController {
     fun updateToDoListById(@RequestBody @Valid toDoUpdateDto: ToDoUpdateDto, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
         val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
         if (checkToken != null) {
-            this.toDoListService.save(toDoUpdateDto)
+            this.toDoListService.update(toDoUpdateDto)
             return ResponseEntity.status(HttpStatus.OK).body("Tarefa alterada com sucesso!")
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
