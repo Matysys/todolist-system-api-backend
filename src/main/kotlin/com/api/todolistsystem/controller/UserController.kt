@@ -35,8 +35,8 @@ class UserController(private val userService: UserService) {
     }
 
     @GetMapping("/{id}")
-    fun getUserById(@PathVariable id: Long): ResponseEntity<UserEntity>{
-        val userEntity: UserEntity = this.userService.findById(id)
+    fun getUserById(@PathVariable id: Long): ResponseEntity<Optional<UserEntity>>{
+        val userEntity: Optional<UserEntity> = this.userService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(userEntity)
     }
 

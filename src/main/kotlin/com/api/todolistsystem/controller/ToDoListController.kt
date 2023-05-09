@@ -4,6 +4,7 @@ import com.api.todolistsystem.dto.ToDoDto
 import com.api.todolistsystem.dto.ToDoListDetailsDto
 import com.api.todolistsystem.dto.ToDoUpdateDto
 import com.api.todolistsystem.entity.ToDoListEntity
+import com.api.todolistsystem.exception.DateException
 import com.api.todolistsystem.jwt.Jwt
 import com.api.todolistsystem.service.impl.ToDoListService
 import com.auth0.jwt.interfaces.DecodedJWT
@@ -34,12 +35,17 @@ class ToDoListController {
 
     @PostMapping
     fun saveToDoList(@RequestBody @Valid todoListDto: ToDoDto, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
-        val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
-        if (checkToken != null) {
-            this.toDoListService.save(todoListDto.toEntity())
-            return ResponseEntity.status(HttpStatus.CREATED).body("Tarefa criada com sucesso!")
+        try {
+            val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
+            if (checkToken != null) {
+                this.toDoListService.save(todoListDto.toEntity())
+                return ResponseEntity.status(HttpStatus.CREATED).body("Tarefa criada com sucesso!")
+            }else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
+            }
+        }catch(ex: DateException){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
     }
 
     @GetMapping("/{userId}")

@@ -5,6 +5,7 @@ import com.api.todolistsystem.dto.ToDoListDetailsDto
 import com.api.todolistsystem.dto.ToDoUpdateDto
 import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
+import com.api.todolistsystem.exception.DateException
 import com.api.todolistsystem.repository.ToDoListRepository
 import com.api.todolistsystem.service.IToDoListService
 import jakarta.transaction.Transactional
@@ -19,7 +20,11 @@ class ToDoListService: IToDoListService {
     @Autowired lateinit var toDoListRepository: ToDoListRepository
 
     override fun save(toDoListEntity: ToDoListEntity): ToDoListEntity {
-        return toDoListRepository.save(toDoListEntity)
+        if(toDoListEntity.finalDate < LocalDate.now()){
+            throw DateException("Não é possível criar uma tarefa com uma data que já passou.")
+        }else {
+            return toDoListRepository.save(toDoListEntity)
+        }
     }
 
     override fun findById(id: Long): ToDoListEntity {

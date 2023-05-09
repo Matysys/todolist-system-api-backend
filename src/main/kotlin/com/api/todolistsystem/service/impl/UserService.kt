@@ -25,13 +25,12 @@ class UserService: IUserService {
         return this.userRepository.save(userEntity)
     }
 
-    override fun findById(id: Long): UserEntity {
-        return this.userRepository.findById(id).orElseThrow { IllegalArgumentException("User not found") }
+    override fun findById(id: Long): Optional<UserEntity> {
+        return this.userRepository.findById(id)
     }
 
     override fun delete(id: Long) {
-        val userEntity: UserEntity = this.findById(id)
-        this.userRepository.delete(userEntity)
+        this.userRepository.deleteById(id)
     }
 
     override fun checkUserLogin(email: String, password: String): String {
