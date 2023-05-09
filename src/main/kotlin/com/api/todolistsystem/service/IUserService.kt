@@ -12,6 +12,6 @@ interface IUserService {
 
     fun delete(id: Long)
 
-    fun checkUserLogin(email: String, password: String): UserEntity
+    fun checkUserLogin(email: String, password: String): String
 
 }

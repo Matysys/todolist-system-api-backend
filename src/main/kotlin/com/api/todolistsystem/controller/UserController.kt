@@ -4,6 +4,7 @@ import com.api.todolistsystem.dto.UserDto
 import com.api.todolistsystem.dto.UserLoginDto
 import com.api.todolistsystem.dto.UserLoginResponseDto
 import com.api.todolistsystem.entity.UserEntity
+import com.api.todolistsystem.exception.LoginException
 import com.api.todolistsystem.jwt.Jwt
 import com.api.todolistsystem.service.impl.UserService
 import com.auth0.jwt.JWT
@@ -41,26 +42,16 @@ class UserController(private val userService: UserService) {
 
     @PostMapping("/login")
     fun login(@RequestBody @Valid userLoginDto: UserLoginDto): ResponseEntity<*>{
-        val userEntity: UserEntity = this.userService.checkUserLogin(userLoginDto.email, userLoginDto.password)
-            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou senha inválidos!")
+        try {
+            val response: String = this.userService.checkUserLogin(userLoginDto.email, userLoginDto.password)
+            return ResponseEntity.status(HttpStatus.OK).body(response)
 
-        val random = SecureRandom()
-        val key = ByteArray(256)
-        random.nextBytes(key)
-        val secret = Base64.getEncoder().encodeToString(key)
+        }catch(ex: LoginException){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.message)
+        }
 
-        val token = Jwt.criarToken(userLoginDto.email, userEntity.id!!, userEntity.name)
-
-        val responseDto = LoginResponseDto(token)
-        val responseJson: String = ObjectMapper().writeValueAsString(responseDto)
-
-        println("TOKEN É $token")
-        println("ResponseDTO É $responseDto")
-        println("responseJson é $responseJson")
-
-        return ResponseEntity.status(HttpStatus.OK).body(token)
     }
 
-    data class LoginResponseDto(val token: String)
+
 
 }

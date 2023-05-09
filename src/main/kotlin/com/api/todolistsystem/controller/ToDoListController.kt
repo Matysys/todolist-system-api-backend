@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 
 @RestController
 @CrossOrigin(origins = ["*"], maxAge = 3600)
@@ -43,13 +45,18 @@ class ToDoListController {
     @GetMapping("/{userId}")
     fun getAllToDoListByUserId(@PathVariable(value = "userId") @Valid userId: Long): ResponseEntity<List<ToDoListEntity>>{
         val toDoListEntity: List<ToDoListEntity> = this.toDoListService.findAllByUser(userId)
-        return ResponseEntity.status(HttpStatus.OK).body(toDoListEntity)
+        if (toDoListEntity.isEmpty()) {
+            return ResponseEntity.notFound().build()
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(toDoListEntity)
+        }
     }
 
     @GetMapping("/details/{userId}")
         fun getAllToDoListDetailsByUserId(@PathVariable(value = "userId") @Valid userId: Long)
         :ResponseEntity<ToDoListDetailsDto>{
         val toDoListDetails: ToDoListDetailsDto = toDoListService.findDetailsByUser(userId)
+
         val dto = ToDoListDetailsDto(
             toDoListDetails.totalTasks,
             toDoListDetails.totalBaixa,
@@ -90,7 +97,6 @@ class ToDoListController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
     }
-
 
 
 }

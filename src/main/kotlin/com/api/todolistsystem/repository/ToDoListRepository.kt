@@ -1,20 +1,19 @@
 package com.api.todolistsystem.repository
 
-import com.api.todolistsystem.dto.ToDoDto
-import com.api.todolistsystem.dto.ToDoListDetailsDto
-import com.api.todolistsystem.dto.ToDoUpdateDto
+
 import com.api.todolistsystem.entity.ToDoListEntity
-import com.api.todolistsystem.entity.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
-import java.util.Date
+
 
 @Repository
 interface ToDoListRepository : JpaRepository<ToDoListEntity, Long> {
+
+
 
     @Query(value = "SELECT * FROM todolist t WHERE t.user_id = :id", nativeQuery = true)
     fun findAllByUserId(@Param("id") userId: Long): List<ToDoListEntity>
@@ -43,6 +42,7 @@ interface ToDoListRepository : JpaRepository<ToDoListEntity, Long> {
 
 
     @Modifying
-    @Query("UPDATE todolist SET finished = 'SIM' WHERE id = :taskId", nativeQuery = true)
+    @Query("UPDATE todolist SET finished = 'SIM', priority = 'FINALIZADA' WHERE id = :taskId", nativeQuery = true)
     fun finish(@Param("taskId") id: Long): Int
+
 }
