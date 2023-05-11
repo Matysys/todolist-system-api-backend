@@ -1,0 +1,23 @@
+version: '3'
+services:
+  todo-list-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_todolist
+      - SPRING_DATASOURCE_USERNAME=mysql
+      - SPRING_DATASOURCE_PASSWORD=mysql123
+    depends_on:
+      - db
+  db:
+    image: mysql
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql123
+      - MYSQL_DB=db_todolist
+    ports:
+      - "3306:3306"

@@ -86,12 +86,17 @@ class ToDoListController {
 
     @PatchMapping("/update")
     fun updateToDoListById(@RequestBody @Valid toDoUpdateDto: ToDoUpdateDto, @RequestHeader("Authorization") token: String): ResponseEntity<String>{
-        val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
-        if (checkToken != null) {
-            this.toDoListService.update(toDoUpdateDto)
-            return ResponseEntity.status(HttpStatus.OK).body("Tarefa alterada com sucesso!")
+        try {
+            val checkToken: DecodedJWT? = Jwt.validarToken(token.replace("Bearer ", ""));
+            if (checkToken != null) {
+                this.toDoListService.update(toDoUpdateDto)
+                return ResponseEntity.status(HttpStatus.OK).body("Tarefa alterada com sucesso!")
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
+            }
+        }catch(ex: DateException){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido.")
     }
 
     @PatchMapping("/finish/{taskId}")

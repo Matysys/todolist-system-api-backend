@@ -56,8 +56,14 @@ class ToDoListService: IToDoListService {
 
     @Transactional
     override fun update(toDoUpdateDto: ToDoUpdateDto): Int {
-        return this.toDoListRepository.update(toDoUpdateDto.id, toDoUpdateDto.name, toDoUpdateDto.description,
-            toDoUpdateDto.finalDate, toDoUpdateDto.priority, toDoUpdateDto.userId)
+        if(toDoUpdateDto.finalDate < LocalDate.now()){
+            throw DateException("Não é possível alterar a data de uma tarefa para uma data que já passou.")
+        }else {
+            return this.toDoListRepository.update(
+                toDoUpdateDto.id, toDoUpdateDto.name, toDoUpdateDto.description,
+                toDoUpdateDto.finalDate, toDoUpdateDto.priority, toDoUpdateDto.userId
+            )
+        }
     }
 
     @Transactional

@@ -32,6 +32,13 @@ dependencies {
 	testImplementation 'io.mockk:mockk:1.13.5'
 }
 
+bootJar {
+	manifest {
+		attributes 'Main-Class': 'com.api.todolistsystem.TodoListSystemApplicationKt'
+	}
+}
+
+
 tasks.withType(KotlinCompile) {
 	kotlinOptions {
 		freeCompilerArgs = ['-Xjsr305=strict']
@@ -42,3 +49,5 @@ tasks.withType(KotlinCompile) {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
