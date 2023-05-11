@@ -17,7 +17,7 @@ services:
     image: mysql
     environment:
       - MYSQL_USER=mysql
-      - MYSQL_PASSWORD=mysql123
-      - MYSQL_DB=db_todolist
+      - MYSQL_ROOT_PASSWORD=mysql123
+      - MYSQL_DATABASE=db_todolist
     ports:
       - "3306:3306"
