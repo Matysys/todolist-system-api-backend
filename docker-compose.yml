@@ -9,8 +9,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_todolist
-      - SPRING_DATASOURCE_USERNAME=mysql
-      - SPRING_DATASOURCE_PASSWORD=mysql123
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
     depends_on:
       - db
   db:
