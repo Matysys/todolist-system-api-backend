@@ -7,7 +7,6 @@ services:
     ports:
      - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=local
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_todolist
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=mysql
@@ -17,9 +16,7 @@ services:
   db:
     image: mysql
     environment:
-      - MYSQL_USER=mysql
       - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_PASSWORD=mysql
       - MYSQL_DATABASE=db_todolist
     ports:
       - "3306:3306"
