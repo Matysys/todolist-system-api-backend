@@ -14,6 +14,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -50,6 +51,12 @@ class UserController(private val userService: UserService) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.message)
         }
 
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteUserById(@PathVariable id: Long): ResponseEntity<String>{
+        this.userService.delete(id)
+        return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso!");
     }
 
 
