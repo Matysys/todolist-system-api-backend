@@ -45,4 +45,3 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-

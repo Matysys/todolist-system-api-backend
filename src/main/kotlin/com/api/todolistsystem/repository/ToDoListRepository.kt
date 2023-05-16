@@ -24,7 +24,7 @@ interface ToDoListRepository : JpaRepository<ToDoListEntity, Long> {
             "SUM(priority = 'MÉDIA') as totalmedia, " +
             "SUM(priority = 'ALTA') as totalalta," +
             "SUM(finished = 'SIM') as totalfinished, " +
-            "SUM(registration_date > final_date) as totaloutoflimit " +
+            "SUM(NOW() > final_date) as totaloutoflimit " +
             "FROM todolist t WHERE t.user_id = :userId", nativeQuery = true)
     fun findDetailsByUser(@Param("userId") userId: Long): Map<String, Long>
 
