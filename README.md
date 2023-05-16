@@ -1,6 +1,6 @@
 # O que é esse projeto?
 Esse projeto é uma API RESTful capaz de criar usuários, fazer login no sistema, 
-criar, alterar, deletar e concluir tarefas que o usuário especificar.
+criar, alterar, deletar e concluir tarefas que o usuário especificar. Atualmente esse projeto está hospedado numa VM da Google Cloud por tempo limitado (teste gratuito).
 
 # Tecnologias usadas
 
