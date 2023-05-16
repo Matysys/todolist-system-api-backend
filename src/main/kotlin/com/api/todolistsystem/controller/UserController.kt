@@ -56,7 +56,7 @@ class UserController(private val userService: UserService) {
     @DeleteMapping("/{id}")
     fun deleteUserById(@PathVariable id: Long): ResponseEntity<String>{
         this.userService.delete(id)
-        return ResponseEntity.status(HttpStatus.OK).body("Usuário deletado com sucesso!");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuário deletado com sucesso!");
     }
 
 
