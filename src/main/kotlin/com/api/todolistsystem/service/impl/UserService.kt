@@ -4,6 +4,7 @@ import com.api.todolistsystem.controller.UserController
 import com.api.todolistsystem.dto.UserLoginResponseDto
 import com.api.todolistsystem.entity.ToDoListEntity
 import com.api.todolistsystem.entity.UserEntity
+import com.api.todolistsystem.exception.ExistsException
 import com.api.todolistsystem.exception.LoginException
 import com.api.todolistsystem.jwt.Jwt
 import com.api.todolistsystem.repository.UserRepository
@@ -21,8 +22,14 @@ class UserService: IUserService {
     @Autowired lateinit var userRepository: UserRepository
 
     override fun save(userEntity: UserEntity): UserEntity {
-        userEntity.encryptPassword()
-        return this.userRepository.save(userEntity)
+            userEntity.encryptPassword()
+            try {
+                return this.userRepository.save(userEntity)
+            }catch(ex: Exception){
+                throw ExistsException("Usuário já existente!")
+            }
+
+
     }
 
     override fun findById(id: Long): Optional<UserEntity> {

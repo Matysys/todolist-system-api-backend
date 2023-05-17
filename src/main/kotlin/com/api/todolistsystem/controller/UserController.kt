@@ -4,6 +4,7 @@ import com.api.todolistsystem.dto.UserDto
 import com.api.todolistsystem.dto.UserLoginDto
 import com.api.todolistsystem.dto.UserLoginResponseDto
 import com.api.todolistsystem.entity.UserEntity
+import com.api.todolistsystem.exception.ExistsException
 import com.api.todolistsystem.exception.LoginException
 import com.api.todolistsystem.jwt.Jwt
 import com.api.todolistsystem.service.impl.UserService
@@ -11,6 +12,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.validation.Valid
+import org.apache.catalina.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -31,8 +33,13 @@ class UserController(private val userService: UserService) {
 
     @PostMapping
     fun saveUser(@RequestBody @Valid userDto: UserDto): ResponseEntity<String>{
-        this.userService.save(userDto.toEntity())
-        return ResponseEntity.status(HttpStatus.CREATED).body("Usuário salvo com sucesso!")
+        try {
+            this.userService.save(userDto.toEntity())
+            return ResponseEntity.status(HttpStatus.CREATED).body("Usuário cadastrado com sucesso!")
+        } catch (ex: ExistsException) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.message)
+        }
+
     }
 
     @GetMapping("/{id}")
