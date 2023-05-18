@@ -1,6 +1,7 @@
 # O que é esse projeto?
 Esse projeto é uma API RESTful capaz de criar usuários, fazer login no sistema, 
 criar, alterar, deletar e concluir tarefas que o usuário especificar. Atualmente esse projeto está hospedado numa VM da Google Cloud por tempo limitado (teste gratuito).
+Criei esse projeto totalmente do 0, então é de minha autoria, embora eu tenha usado um tema simples.
 
 # Tecnologias usadas
 
@@ -15,7 +16,7 @@ criar, alterar, deletar e concluir tarefas que o usuário especificar. Atualment
 - [X] Gradle
 - [X] JUnit
 - [X] MockK
-- [X] H2 Database como banco de dados de teste.
+- [X] HSQLDB como banco de dados de teste.
 
 # Como executar o projeto?
 
