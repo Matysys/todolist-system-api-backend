@@ -27,17 +27,17 @@ class UserServiceTest {
 
     @Test
     fun `should create a user`(){
-        //given
-        val fakeUser: UserEntity = buildUser();
-        every { userService.save(fakeUser) } returns fakeUser
+        // given
+        val fakeUser: UserEntity = buildUser()
+        every { userRepository.save(fakeUser) } returns fakeUser
 
-        //when
-        val actual : UserEntity = userService.save(fakeUser)
+        // when
+        val createdUser: UserEntity = userService.save(fakeUser)
 
-        //then
-        Assertions.assertThat(actual).isNotNull
-        Assertions.assertThat(actual).isEqualTo(fakeUser)
-
+        // then
+        verify(exactly = 1) { userRepository.save(fakeUser) }
+        Assertions.assertThat(createdUser).isNotNull
+        Assertions.assertThat(createdUser).isEqualTo(fakeUser)
     }
 
     @Test
@@ -77,7 +77,7 @@ class UserServiceTest {
 
     private fun buildUser(
         name: String = "Mateus",
-        email: String = "mateus@hotmail.com",
+        email: String = "mateus123@hotmail.com",
         plainPassword: String = "mateus123",
         id: Long = 1L
     ) = UserEntity(
