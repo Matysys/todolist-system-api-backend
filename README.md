@@ -31,6 +31,10 @@ spring.datasource.username=seu usuário aqui
 spring.datasource.password=sua senha aqui
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 ```
+Se não houver o Gradle no seu sistema operacional, abra o terminal dentro da pasta raiz do projeto e execute o seguinte comando para baixar a versão correta do Gradle para o projeto:
+```
+./gradlew
+```
 
 ### Via container
 Tenha certeza de que suas portas 8080 e 3306 estejam abertas na sua rede e que você já tenha o Docker e Docker Compose, depois siga os passos abaixo na sua Virtual Machine:
