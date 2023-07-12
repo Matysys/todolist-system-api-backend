@@ -236,9 +236,6 @@ Essa é a instrução SQL executada para obter esses detalhes (utilizei o Beekee
 
 ---------------------------------------------------------------------------------
 
-# Testes unitários
-
-Será adicionado futuramente.
 
 
 
