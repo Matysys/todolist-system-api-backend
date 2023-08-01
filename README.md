@@ -64,6 +64,8 @@ Assim acesse os endpoints pelo IP da sua Virtual Machine ou do seu próprio sist
 
 ## Endpoints do usuário
 
+**OBSERVAÇÃO: O ENDPOINT ABAIXO NÃO ESTÁ MAIS NO AR, ENTÃO UTILIZE ```localhost:8080```**
+
 Agora irei explicar sobre os endpoints existentes nessa API.
 
 Usarei como endpoint principal o ```http://todolistsystem.dynv6.net:8080/api/```, mas 
